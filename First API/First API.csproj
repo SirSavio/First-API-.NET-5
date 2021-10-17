@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\NovaPasta\**" />
+    <Compile Remove="NovaPasta\**" />
     <Content Remove="Controllers\NovaPasta\**" />
+    <Content Remove="NovaPasta\**" />
     <EmbeddedResource Remove="Controllers\NovaPasta\**" />
+    <EmbeddedResource Remove="NovaPasta\**" />
     <None Remove="Controllers\NovaPasta\**" />
+    <None Remove="NovaPasta\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,11 +26,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Entities\" />
   </ItemGroup>
 
 </Project>
