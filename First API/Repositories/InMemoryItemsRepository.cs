@@ -15,25 +15,30 @@ namespace First_API.Repositories
             new Item { Id = Guid.NewGuid(), Name = "bronze Shield", Price = 18, CreatedDate = DateTimeOffset.UtcNow },
         };
 
-        public IEnumerable<Item> GetItems()
+        public IEnumerable<Item> GetItemsAsync()
         {
             return items;
         }
 
-        public Item GetItem(Guid id)
+        public Item GetItemAsync(Guid id)
         {
             return items.Where(Item => Item.Id == id).SingleOrDefault();
         }
 
-        public void  CreateItem(Item item)
+        public void  CreateItemAsync(Item item)
         {
             items.Add(item);
         }
 
-        public void UpdateItem(Item item)
+        public void UpdateItemAsync(Item item)
         {
             var index = items.FindIndex(existingItem => existingItem.Id == item.Id);
             items[index] = item;
+        }
+
+        public void DeleteItemAsync(Guid id)
+        {
+            
         }
     }
 }

@@ -22,14 +22,14 @@ namespace First_API.Controllers
         [HttpGet]
         public IEnumerable<ItemDto> GetItems()
         {
-            var items = repository.GetItems().Select( item => item.AsDto());
+            var items = repository.GetItemsAsync().Select( item => item.AsDto());
             return items;
         }
 
         [HttpGet("{id}")]
         public ActionResult<ItemDto> GetItem(Guid id)
         {
-            var item = repository.GetItem(id);
+            var item = repository.GetItemAsync(id);
 
             return item is null ? NotFound() : item.AsDto();
         }
@@ -45,7 +45,7 @@ namespace First_API.Controllers
                 CreatedDate = DateTimeOffset.UtcNow
             };
 
-            repository.CreateItem(item);
+            repository.CreateItemAsync(item);
 
             return CreatedAtAction(nameof(GetItem), new { id = item.Id}, item.AsDto());
         }
@@ -53,7 +53,7 @@ namespace First_API.Controllers
         [HttpPut("id")]
         public ActionResult UpdateItem(Guid id, UpdateItemDto itemDto)
         {
-            var existingItem = repository.GetItem(id);
+            var existingItem = repository.GetItemAsync(id);
 
             if (existingItem is null) return NotFound();
 
@@ -63,7 +63,7 @@ namespace First_API.Controllers
                 Price = itemDto.Price
             };
 
-            repository.UpdateItem(updatedItem);
+            repository.UpdateItemAsync(updatedItem);
             return NoContent();
         }
 
