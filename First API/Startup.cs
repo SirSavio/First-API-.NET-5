@@ -35,19 +35,26 @@ namespace First_API
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
             BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
-
+            var mongoSettings = Configuration.GetSection(nameof(MongoSettings)).Get<MongoSettings>();
             services.AddSingleton<IMongoClient>(serviceProvider =>
             {
-                var settings = Configuration.GetSection(nameof(MongoSettings)).Get<MongoSettings>();
-                return new MongoClient(settings.ConnectionString);
+                return new MongoClient(mongoSettings.ConnectionString);
             });
             services.AddSingleton<IItemsRepository, MongoItemsRepository>();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "First_API", Version = "v1" });
             });
+
+            services.AddHealthChecks().AddMongoDb(mongoSettings.ConnectionString, 
+                name: "mongoDb", 
+                timeout: TimeSpan.FromSeconds(3),
+                tags: new[] { "ready" }); 
 
         }
 
@@ -70,6 +77,7 @@ namespace First_API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
     }
