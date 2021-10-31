@@ -2,6 +2,7 @@
 using First_API.Entities;
 using First_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,11 @@ namespace First_API.Controllers
     public class ItemsController : Controller
     {
         private readonly IItemsRepository repository;
-        public ItemsController(IItemsRepository repository)
+        private readonly ILogger logger;
+        public ItemsController(IItemsRepository repository, ILogger<ItemsController> logger)
         {
             this.repository = repository;
+            this.logger = logger;
         }
 
         [HttpGet]
