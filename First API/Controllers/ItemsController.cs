@@ -55,7 +55,7 @@ namespace First_API.Controllers
         }
 
         [HttpPut("id")]
-        public async Task<ActionResult> UpdateItem(Guid id, UpdateItemDto itemDto)
+        public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDto itemDto)
         {
             var existingItem = await repository.GetItemAsync(id);
 
